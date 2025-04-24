@@ -1,15 +1,29 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const contatos = [
-  { id: '1', nome: 'Marcos Andrade', telefone: '81 988553424' },
-  { id: '2', nome: 'Patrícia Tavares', telefone: '81 998765332' },
-  { id: '3', nome: 'Rodrigo Antunes', telefone: '81 987765525' },
-];
-
 export default function ListarContatos({ navigation }) {
+  const [contatos, setContatos] = useState([]);
+
+  useEffect(() => {
+    listarContatos();
+  });
+  
+  function listarContatos() {
+    axios.get("http://localhost:3000/contatos")
+      .then((response) => {
+        console.log("Contatos recebidos:", response.data);
+        setContatos(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro na requisição:", error);
+        alert('Erro ao conectar com o servidor.');
+      });
+  }
+  
+
   const renderItem = ({ item }) => (
     <View style={styles.contato}>
       <Avatar
@@ -22,7 +36,7 @@ export default function ListarContatos({ navigation }) {
         <Text style={styles.nome}>{item.nome}</Text>
         <Text style={styles.telefone}>{item.telefone}</Text>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('AlterarExcluirContato')}>
+      <TouchableOpacity onPress={() => navigation.navigate('AlterarExcluirContato', { id: item.id })}>
         <FontAwesome5 name="pencil-alt" size={20} color="green" />
       </TouchableOpacity>
     </View>
@@ -32,7 +46,7 @@ export default function ListarContatos({ navigation }) {
     <View style={styles.container}>
       <FlatList
         data={contatos}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
       />
     </View>

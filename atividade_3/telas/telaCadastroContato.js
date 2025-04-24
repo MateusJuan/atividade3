@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { SafeAreaView, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
@@ -6,9 +7,19 @@ export default function CadastroContato() {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
 
-  const salvarContato = () => {
-    alert('Contato salvo!');
-  };
+  function criarContato() {
+    axios.post("http://localhost:3000/contatos", {
+      nome,
+      email,
+      telefone
+    }).then(function(response){
+      console.log(response.data);
+      alert('Contato criado com sucesso!');
+    }).catch(function(error){
+      console.error(error);
+      alert('Erro ao criar contato!');
+    });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +44,7 @@ export default function CadastroContato() {
         style={styles.input}
       />
 
-      <TouchableOpacity style={styles.botao} onPress={salvarContato}>
+      <TouchableOpacity style={styles.botao} onPress={criarContato}>
         <Text style={styles.textoBotao}>Salvar</Text>
       </TouchableOpacity>
     </SafeAreaView>

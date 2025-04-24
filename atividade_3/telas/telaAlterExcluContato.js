@@ -1,17 +1,50 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, TextInput, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 
-export default function AlterarExcluirContato() {
-  const [nome, setNome] = useState('Marco Andrade');
-  const [email, setEmail] = useState('mand@gmail.com');
-  const [telefone, setTelefone] = useState('81 988553424');
+export default function AlterarExcluirContato({ route }) {
+  const { id } = route.params;
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+
+  useEffect(() => {
+    // Buscar o contato pelo ID
+    axios.get(`http://localhost:3000/contatos/${id}`)
+      .then((response) => {
+        const contato = response.data;
+        setNome(contato.nome);
+        setEmail(contato.email);
+        setTelefone(contato.telefone);
+      })
+      .catch((error) => {
+        console.error("Erro na requisição:", error);
+        alert('Erro ao carregar o contato.');
+      });
+  }, [id]);
 
   const alterarContato = () => {
-    Alert.alert('Contato alterado com sucesso!');
+    const contatoAlterado = { nome, email, telefone };
+
+    axios.put(`http://localhost:3000/contatos/${id}`, contatoAlterado)
+      .then(() => {
+        Alert.alert('Contato alterado com sucesso!');
+      })
+      .catch((error) => {
+        console.error("Erro ao alterar o contato:", error);
+        alert('Erro ao alterar o contato.');
+      });
   };
 
   const excluirContato = () => {
-    Alert.alert('Contato excluído com sucesso!');
+    axios.delete(`http://localhost:3000/contatos/${id}`)
+      .then(() => {
+        Alert.alert('Contato excluído com sucesso!');
+      })
+      .catch((error) => {
+        console.error("Erro ao excluir o contato:", error);
+        alert('Erro ao excluir o contato.');
+      });
   };
 
   return (

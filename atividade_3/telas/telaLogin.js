@@ -1,25 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Avatar, Input } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function TelaLogin({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
+  function login() {
+    axios.get('http://localhost:3000/usuarios')
+      .then((response) => {
+        const usuarios = response.data;
+        const usuario = usuarios.find((u) => u.email === email && u.senha === senha);
+        if (usuario) {
+          navigation.navigate('ListarContatos');
+        } else {
+          alert('Email ou senha inválidos!');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert('Erro ao conectar com o servidor.');
+      });
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Avatar
         rounded
         size="xlarge"
         title="MJ"
-        source={{
-          uri: 'https://avatars.githubusercontent.com/u/169060996?v=4',
-        }}
+        source={{ uri: 'https://avatars.githubusercontent.com/u/169060996?v=4' }}
+        containerStyle={{ marginBottom: 20 }}
       />
 
       <Input
         placeholder="Email"
         leftIcon={<MaterialIcons name="email" size={24} color="black" />}
         containerStyle={styles.inputContainer}
+        value={email}
+        onChangeText={setEmail}
       />
 
       <Input
@@ -27,22 +48,17 @@ export default function TelaLogin({ navigation }) {
         leftIcon={<MaterialIcons name="lock" size={24} color="black" />}
         secureTextEntry
         containerStyle={styles.inputContainer}
+        value={senha}
+        onChangeText={setSenha}
       />
 
-      <TouchableOpacity
-        style={styles.botao_1}
-        onPress={() => navigation.navigate('ListarContatos')}
-      >
+      <TouchableOpacity style={styles.botao_1} onPress={login}>
         <Text style={styles.texto}>Logar</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.botao_2}
-        onPress={() => navigation.navigate('CadastroUsuario')}
-      >
+      <TouchableOpacity style={styles.botao_2} onPress={() => navigation.navigate('CadastroUsuario')}>
         <Text style={styles.texto}>Cadastre-se</Text>
       </TouchableOpacity>
-      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
@@ -53,6 +69,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  inputContainer: {
+    width: '70%',
+    alignSelf: 'center',
   },
   botao_1: {
     backgroundColor: 'green',
@@ -72,15 +92,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
-  },
-  texto_senha: {
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: 20,
-    paddingTop: 10,
-  },
-  inputContainer: {
-    width: '70%',
-    alignSelf: 'center',
   },
 });

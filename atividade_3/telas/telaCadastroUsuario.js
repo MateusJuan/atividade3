@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useLayoutEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 
@@ -6,6 +7,23 @@ export default function CadastroContato({ navigation }) {
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+
+  function criarConta(){
+    axios.post("http://localhost:3000/usuarios",
+      {
+        nome,
+        cpf,
+        email,
+        senha
+      }
+    ).then((response) => {
+      console.log(response.data);
+      alert("Usuário cadastrado com sucesso!");
+    }).catch((error) => {
+      console.error(error);
+      alert("Erro ao cadastrar usuário.");
+    });
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -52,7 +70,7 @@ export default function CadastroContato({ navigation }) {
         style={styles.input}
       />
 
-      <TouchableOpacity style={styles.botaoSalvar} onPress={salvarContato}>
+      <TouchableOpacity style={styles.botaoSalvar} onPress={criarConta}>
         <Text style={styles.textoBotao}>Salvar</Text>
       </TouchableOpacity>
     </SafeAreaView>
