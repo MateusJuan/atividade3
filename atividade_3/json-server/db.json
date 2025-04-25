@@ -1,4 +1,19 @@
 {
-  "usuarios": [],
-  "contatos": []
+  "usuarios": [
+    {
+      "id": "bdf7",
+      "nome": "Mateus juan",
+      "cpf": "00000000001",
+      "email": "mjhs2@discente.ifpe.edu.br",
+      "senha": "123456789"
+    }
+  ],
+  "contatos": [
+    {
+      "id": "0ac2",
+      "nome": "Mateus juan",
+      "email": "mjhs2@discente.ifpe.edu.br",
+      "telefone": "+5581979043548"
+    }
+  ]
 }

@@ -25,7 +25,7 @@ export default function App() {
           name="ListarContatos"
           component={ListarContatos}
           options={({ navigation }) => ({
-            headerTitle: 'Lista de Contatos',
+            headerTitle: 'Contatos',
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: 'green',
@@ -45,7 +45,7 @@ export default function App() {
           name="CadastroUsuario"
           component={CadastroUsuario}
           options={{
-            headerTitle: 'Usuário',
+            headerTitle: 'Criar Conta',
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: 'green',
@@ -57,7 +57,7 @@ export default function App() {
           name="CadastroContato"
           component={CadastroContato}
           options={{
-            headerTitle: 'Contato',
+            headerTitle: 'Cadastrar Contato',
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: 'green',
@@ -69,7 +69,7 @@ export default function App() {
           name="AlterarExcluirContato"
           component={AlterarExcluirContato}
           options={{
-            headerTitle: 'Contato',
+            headerTitle: 'Alterar ou Excluir Contato',
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: 'green',
