@@ -19,6 +19,7 @@ export default function CadastroContato({ navigation }) {
     ).then((response) => {
       console.log(response.data);
       alert("Usuário cadastrado com sucesso!");
+      navigation.navigate('Login')
     }).catch((error) => {
       console.error(error);
       alert("Erro ao cadastrar usuário.");

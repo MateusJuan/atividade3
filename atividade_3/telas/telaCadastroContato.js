@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { SafeAreaView, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function CadastroContato() {
+export default function CadastroContato({navigation}) {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -15,6 +15,7 @@ export default function CadastroContato() {
     }).then(function(response){
       console.log(response.data);
       alert('Contato criado com sucesso!');
+      navigation.navigate('ListarContatos')
     }).catch(function(error){
       console.error(error);
       alert('Erro ao criar contato!');

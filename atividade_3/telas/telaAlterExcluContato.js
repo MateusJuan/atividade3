@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, TextInput, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 
-export default function AlterarExcluirContato({ route }) {
+export default function AlterarExcluirContato({ route, navigation }) {
   const { id } = route.params;
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -29,6 +29,7 @@ export default function AlterarExcluirContato({ route }) {
     axios.put(`http://localhost:3000/contatos/${id}`, contatoAlterado)
       .then(() => {
         Alert.alert('Contato alterado com sucesso!');
+        navigation.navigate('ListarContatos')
       })
       .catch((error) => {
         console.error("Erro ao alterar o contato:", error);
@@ -40,6 +41,7 @@ export default function AlterarExcluirContato({ route }) {
     axios.delete(`http://localhost:3000/contatos/${id}`)
       .then(() => {
         Alert.alert('Contato excluído com sucesso!');
+        navigation.navigate('ListarContatos')
       })
       .catch((error) => {
         console.error("Erro ao excluir o contato:", error);

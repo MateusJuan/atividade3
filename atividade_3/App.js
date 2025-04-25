@@ -39,6 +39,7 @@ export default function App() {
                 <Ionicons name="add" size={28} color="white" />
               </TouchableOpacity>
             ),
+            headerLeft:()=> null,
           })}
         />
         <Stack.Screen
